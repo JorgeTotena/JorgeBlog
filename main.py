@@ -1,5 +1,5 @@
 # Angelas's solution https://gist.github.com/angelabauer/f08f36c04065969f539f133f3b01832b
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, redirect
 import requests
 from post import Post
 
@@ -25,9 +25,27 @@ def get_post(num):
 def about():
     return render_template("about.html")
 
-@app.route('/contact')
+@app.route('/contact', methods = ['GET','POST'])
 def contact():
-    return render_template("contact.html")
+    if request.method == 'GET':
+        return render_template("contact.html")
+    if request.method == 'POST':
+        username = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        message = request.form['message']
+        # return redirect(url_for("receive_data"))
+        return render_template("contact.html")
+
+# @app.route('/form-entry', methods = ['POST'])
+# def receive_data():
+#     username = request.form['name']
+#     email = request.form['email']
+#     phone = request.form['phone']
+#     message = request.form['message']
+#     #return redirect(url_for("receive_data"))
+#     return render_template("form-entry.html")
+
 
 
 if __name__ == "__main__":
